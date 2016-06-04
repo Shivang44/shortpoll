@@ -3,7 +3,7 @@
 const Hapi = require('hapi');
 
 const server = new Hapi.Server();
-server.connection({ port: ~~(proccess.env.PORT) });
+server.connection({ port: ~~(process.env.PORT) });
 
 server.start((err) => {
 
