@@ -17,7 +17,7 @@ server.register(Inert, () => {});
 // Configure cookies
 server.state('data', {
     ttl: null,
-    isSecure: false,
+    isSecure: false, // Set to true in production!
     isHttpOnly: true,
     encoding: 'base64json',
     clearInvalid: false,
