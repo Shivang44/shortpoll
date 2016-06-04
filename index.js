@@ -5,6 +5,14 @@ const Hapi = require('hapi');
 const server = new Hapi.Server();
 server.connection({ port: ~~(process.env.PORT) });
 
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: function (request, reply) {
+        reply('Hello world!');
+    }
+});
+
 server.start((err) => {
 
     if (err) {
