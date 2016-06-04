@@ -16,13 +16,15 @@
   },
   "homepage": "https://github.com/Shivang44/livepollapp#readme",
   "dependencies": {
+    "handlebars": "^4.0.5",
     "hapi": "^13.4.1",
+    "hoek": "^4.0.1",
     "ioredis": "^2.0.1",
-    "socket.io": "^1.4.6"
- },
- "engines": {
-     "node": "4.4.4",
-     "npm": "2.15.1"
- }
-
+    "socket.io": "^1.4.6",
+    "vision": "^4.1.0"
+  },
+  "engines": {
+    "node": "4.4.4",
+    "npm": "2.15.1"
+  }
 }

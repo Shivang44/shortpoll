@@ -1,18 +1,45 @@
 'use strict';
 
 const Hapi = require('hapi');
-
+const Inert = require('inert');
+const Vision = require('vision');
+const Path = require('path');
+const Hoek = require('hoek');
+const Handlebars = require('handlebars');
 const server = new Hapi.Server();
+
+// Configure Server
 server.connection({ port: ~~(process.env.PORT) });
 
-server.route({
-    method: 'GET',
-    path: '/',
-    handler: function (request, reply) {
-        reply('Hello world!');
-    }
+// Register Inert for rendering static content
+server.register(Inert, () => {});
+
+// Configure cookies
+server.state('data', {
+    ttl: null,
+    isSecure: false,
+    isHttpOnly: true,
+    encoding: 'base64json',
+    clearInvalid: false,
+    strictHeader: true
 });
 
+// Register Vision, which adds template rendering support to Hapi
+server.register(Vision, (err) => {
+    Hoek.assert(!err, err);
+    server.views({
+        engines: {
+            html: Handlebars // We will be using handlebars for rendering templates
+        },
+        relativeTo: __dirname,
+        path: 'templates'
+    });
+});
+
+// Add routes
+server.route(require('./lib/routes.js'));
+
+// Start server
 server.start((err) => {
 
     if (err) {
