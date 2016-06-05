@@ -24,6 +24,7 @@
     "handlebars": "^4.0.5",
     "hapi": "^13.4.1",
     "hoek": "^4.0.1",
+    "inert": "^4.0.0",
     "ioredis": "^2.0.1",
     "socket.io": "^1.4.6",
     "vision": "^4.1.0"
