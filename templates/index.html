@@ -12,11 +12,37 @@
       <body>
           <div>
               <form action="/create" method="POST">
-                  <div class="section">1. Question <input type="text" name="question" /></div>
-                  <div class="section">2. Options <input type="text" name="option1" /><input type="text" name="option2" /><input type="text" name="option3" /><input type="text" name="option4" /></div>
+                  <div class="section">1. Question <input type="text" name="question" id="question" /></div>
+                  <div class="section" id="options">
+                      2. Options
+                      <input type="text" name="option1" />
+                      <input type="text" name="option2" />
+                      <input type="text" name="option3" />
+                      <input type="text" name="option4" />
+                  </div>
                   <div class="section">3. Generate Poll <input type="submit" value="Generate Poll"/></div>
               </form>
           </div>
-
       </body>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+      <script>
+        $('form').submit(function() {
+            var options = [];
+            $('#options').children('input').each(function() {
+                options.push(this.value);
+            });
+            $.ajax({
+                type: "POST",
+                url: "/create",
+                data: {
+                    question: $('#question').val(),
+                    options: options
+                },
+                success: function() { window.location.href="/view"; }
+            });
+            console.log(options);
+            return false;
+        });
+
+      </script>
 </html>
