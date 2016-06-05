@@ -36,6 +36,8 @@ server.register(Vision, (err) => {
     });
 });
 
+
+
 // Add routes
 server.route(require('./lib/routes.js'));
 
