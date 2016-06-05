@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/Shivang44/livepollapp#readme",
   "dependencies": {
+    "bluebird": "^3.4.0",
     "handlebars": "^4.0.5",
     "hapi": "^13.4.1",
     "hoek": "^4.0.1",
