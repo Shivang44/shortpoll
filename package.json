@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Shivang44/livepollapp#readme",
   "dependencies": {
+    "bcryptjs": "^2.3.0",
     "bluebird": "^3.4.0",
     "code": "^3.0.0",
     "good": "^7.0.1",
@@ -25,6 +26,7 @@
     "good-squeeze": "^3.0.1",
     "handlebars": "^4.0.5",
     "hapi": "^13.4.1",
+    "hapi-auth-basic": "^4.2.0",
     "hoek": "^4.0.1",
     "inert": "^4.0.0",
     "ioredis": "^2.0.1",

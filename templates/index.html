@@ -38,9 +38,14 @@
                     "question": $('#question').val(),
                     "options": options
                 },
-                success: function() { window.location.href="/view"; }
+                success: function(result) {
+                    var date = new Date();
+                    var daysTillExpire = 1 * 24 * 60 * 60 * 1000; // 24 hours for now
+                    date.setTime(date.getTime()+daysTillExpire);
+                    document.cookie = "data=" + btoa(result) + "; expires=" + date.toGMTString();
+                    window.location.href="/view";
+                 }
             });
-            console.log(options);
             return false;
         });
 
