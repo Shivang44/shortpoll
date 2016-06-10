@@ -6,6 +6,8 @@ const Vision = require('vision');
 const Path = require('path');
 const Hoek = require('hoek');
 const Handlebars = require('handlebars');
+
+
 const server = new Hapi.Server();
 
 // Configure Server

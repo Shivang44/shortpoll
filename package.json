@@ -19,6 +19,7 @@
   "dependencies": {
     "bcryptjs": "^2.3.0",
     "bluebird": "^3.4.0",
+    "boom": "^3.2.1",
     "code": "^3.0.0",
     "good": "^7.0.1",
     "good-console": "^6.1.2",
