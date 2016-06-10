@@ -10,7 +10,10 @@
         </style>
       </head>
       <body>
-          <h1>{{ poll_obj.question }}</h1>
+          <div style="text-align:center;">
+            <h3>Share this url so people can answer your poll: <a href="/{{poll_obj.poll_id}}">domain.com/{{poll_obj.poll_id}}</a> </h3>
+            <h1>{{ poll_obj.question }}</h1>
+        </div>
       </body>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
       <script>

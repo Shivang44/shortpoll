@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>{{ title }}</title>
+        <style>
+            .section {
+                margin: 10px;
+            }
+            ul li {
+                list-style-type: none;
+            }
+        </style>
+      </head>
+      <body>
+          <div style="text-align: center;">
+              <h1>{{ poll_obj.question }}</h1>
+               {{#each poll_obj.options }}
+              <ul id="answerul">
+                  <li><button>{{this}}</button></li>
+              </ul>
+              {{/each}}
+        </div>
+      </body>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+      <script>
+        // Add letter choice to text choice
+        var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        var index = 0;
+        $('li').each(function(el){
+            $(this).html(alphabet[index] + " " + $(this).html());
+            index++;
+        });
+      </script>
+</html>
