@@ -4,22 +4,53 @@
         <meta charset="UTF-8">
         <title>{{ title }}</title>
         <style>
-            .section {
-                margin: 10px;
+            .wrapper {
+                width: 100%;
+                text-align: center;
+            }
+            .content {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+                max-width: 450px;
+            }
+            .answer {
+                display:block;
+                margin-left: auto;
+                margin-right: auto;
+                width:100%;
+                max-width: 150px;
+            }
+            ul {
+                padding: 0;
             }
             ul li {
                 list-style-type: none;
+                margin-bottom: 10px;
+            }
+            .letter_span {
+                float: left;
+                display: block;
+                width: 35px;
+            }
+            .button_choice {
+                width: 115px;
             }
         </style>
       </head>
       <body>
-          <div style="text-align: center;">
-              <h1>{{ poll_obj.question }}</h1>
-               {{#each poll_obj.options }}
-              <ul id="answerul">
-                  <li><button>{{this}}</button></li>
-              </ul>
-              {{/each}}
+          <div class="wrapper">
+              <div class="content">
+                      <h1>{{ poll_obj.question }}</h1>
+                      <div class="answer">
+                          <ul id="answerul">
+                              {{#each poll_obj.options }}
+                              <li><button class="button_choice">{{this}}</button></li>
+                              {{/each}}
+                        </ul>
+                  </div>
+            </div>
         </div>
       </body>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
@@ -28,7 +59,7 @@
         var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
         var index = 0;
         $('li').each(function(el){
-            $(this).html(alphabet[index] + " " + $(this).html());
+            $(this).html("<span class='letter_span'>" + alphabet[index] + "</span>" + " " + $(this).html());
             index++;
         });
       </script>
