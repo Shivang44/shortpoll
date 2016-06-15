@@ -55,25 +55,29 @@
       </body>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
       <script>
-        // Add letter choice to text choice
-        var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-        var index = 0;
-        $('button').each(function(el){
-            $(this).before("<span class='letter_span'>" + alphabet[index] + "</span>");
-            index++;
-        });
+        $(document).ready(function() {
+            // Add letter choice to text choice
+            var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+            var index = 0;
+            $('button').each(function(el){
+                $(this).before("<span class='letter_span'>" + alphabet[index] + "</span>");
+                index++;
+            });
 
-        // Answer poll
-        $('button').click(function(){
-            $.ajax({
-                type: "POST",
-                url: window.location.pathname
-                data: {
-                    "answer": $(this).val();
-                },
-                success: function(result) {
-                    // Design question: What to do after answering?
-                 }
+            // Answer poll
+            $('button').click(function(){
+
+                $.ajax({
+                    type: "POST",
+                    url: window.location.pathname,
+                    data: {
+                        "answer": $(this).val()
+                    },
+                    success: function(result) {
+                        // Design question: What to do after answering?
+                        alert(result);
+                     }
+                });
             });
         });
       </script>
