@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A live poll app written in NodeJS, using redis for datastore and socketio for keeping clients in sync",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "test": "lab"
   },
   "repository": {

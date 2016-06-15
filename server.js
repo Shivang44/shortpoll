@@ -6,9 +6,11 @@ const Vision = require('vision');
 const Path = require('path');
 const Hoek = require('hoek');
 const Handlebars = require('handlebars');
+const pubsub = require('./lib/pubsub.js');
 
 
 const server = new Hapi.Server();
+
 
 // Configure Server
 server.connection({ port: ~~(process.env.PORT) });
@@ -45,6 +47,9 @@ server.route(require('./lib/routes.js'));
 
 // Start server
 server.start((err) => {
+
+    // Init websocket connections
+    pubsub.init(server.listener);
 
     if (err) {
         throw err;

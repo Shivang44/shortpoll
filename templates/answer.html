@@ -54,6 +54,7 @@
         </div>
       </body>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+      <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
       <script>
         $(document).ready(function() {
             // Add letter choice to text choice
@@ -65,19 +66,15 @@
             });
 
             // Answer poll
+            var socket = io();
             $('button').click(function(){
+                // Emit the selected option to the 'poll:answer' channel with the poll_id and selected option
+                var answer_information = {
+                    poll_id: window.location.pathname.substr(1),
+                    answer: $(this).val()
+                };
+                socket.emit('poll:answers', JSON.stringify(answer_information));
 
-                $.ajax({
-                    type: "POST",
-                    url: window.location.pathname,
-                    data: {
-                        "answer": $(this).val()
-                    },
-                    success: function(result) {
-                        // Design question: What to do after answering?
-                        alert(result);
-                     }
-                });
             });
         });
       </script>
