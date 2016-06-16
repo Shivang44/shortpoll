@@ -69,26 +69,28 @@
             var socket = io();
             $('button').click(function(){
                 // Add green background if selected
-                $('button').not(this).removeAttr('style');
-                $(this).css('background-color', 'green');
-
                 // Keep a data-selected to know if we're selecting or deselecting
-                var selected = ($(this).data('selected') === 0) ? 1 : 0;
-                $(this).data('selected', selected);
-                if (selected === 1) {
-                    alert('selecting option');
-                } else if (selected === 0) {
-                    alert('delsecting option');
-                    $(this).removeAttr('style');
-                }
+
+                var selected = $(this).data('selected');
+                $('button').not(this).removeAttr('style');
+                $('button').not(this).data('selected', 0);
+                $(this).data('selected', (selected === 0) ? 1 : 0);
 
                 // Emit the selected option to the 'poll:answer' channel with the poll_id and selected option
                 var answer_information = {
                     poll_id: window.location.pathname.substr(1),
-                    answer: button.val()
+                    answer: $(this).val()
                 };
-                socket.emit('poll:answers', JSON.stringify(answer_information));
 
+                if (selected === 1 ) {
+                    answer_information.vote = -1;
+                    $(this).removeAttr('style');
+                } else {
+                    answer_information.vote = 1;
+                    $(this).css('background-color', 'green');
+                }
+
+                socket.emit('poll:answers', JSON.stringify(answer_information));
             });
         });
       </script>
