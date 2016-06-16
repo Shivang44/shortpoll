@@ -9,6 +9,7 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,6 +36,12 @@
     }
     #question {
         margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .downarrow {
+        color: #eb6864;
+        border-color: #eb6864;
+        font-size: 7em;
     }
     </style>
   </head>
@@ -54,8 +61,7 @@
                               <input type="text" name="option3" /><br />
                               <input type="text" name="option4" /><br />
                           </div>-->
-                          <br />
-                          <input type="submit" value="Continue" class="btn btn-primary btn-lg" />
+                          <i class="fa fa-arrow-circle-down downarrow" aria-hidden="true"></i>
                       </form>
                 </div>
               </div>
@@ -69,7 +75,7 @@
   <script>
     $(document).ready(function() {
         $('#question').focus();
-        $('form').submit(function(e) {
+        $('.downarrow').click(function(e) {
             e.preventDefault();
             var options = [];
             $('#options').children('input').each(function() {
