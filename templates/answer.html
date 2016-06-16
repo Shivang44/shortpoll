@@ -3,6 +3,8 @@
       <head>
         <meta charset="UTF-8">
         <title>{{ title }}</title>
+        <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
         <style>
             .wrapper {
                 width: 100%;
@@ -42,11 +44,11 @@
       <body>
           <div class="wrapper">
               <div class="content">
-                      <h1>{{ poll_obj.question }}</h1>
+                      <h1 style="margin-bottom: 25px;">{{ poll_obj.question }}</h1>
                       <div class="answer">
                           <ul id="answerul">
                               {{#each poll_obj.options }}
-                              <li><button class="button_choice" value="{{ @index }}" data-selected="0">{{ this }}</button></li>
+                              <li><button class="btn btn-primary button_choice" value="{{ @index }}" data-selected="0">{{ this }}</button></li>
                               {{/each}}
                         </ul>
                   </div>
