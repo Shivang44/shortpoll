@@ -9,7 +9,11 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.1/jquery.fullPage.min.css" />
+
+
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,45 +42,73 @@
         margin-top: 20px;
         margin-bottom: 20px;
     }
-    .downarrow {
+    .downarrow, .uparrow {
         color: #eb6864;
         border-color: #eb6864;
-        font-size: 7em;
+        font-size: 8em;
     }
     </style>
   </head>
   <body>
       <div class="container">
-          <div class="row">
-              <div class="col-xs-12 vcenter">
-                  <div class="center_block">
-                      <h1>Ask a question</h1>
-                      <form action="/create" method="POST">
-                         <input class="form-control input-lg" id="question" type="text" name="question" placeholder="Are you feeling it now Mr. Krabs?" />
-                         <!--
-                         <h1>Options</h1>
-                          <div id="options">
-                              <input type="text" name="option1" /><br />
-                              <input type="text" name="option2" /><br />
-                              <input type="text" name="option3" /><br />
-                              <input type="text" name="option4" /><br />
-                          </div>-->
-                          <i class="fa fa-arrow-circle-down downarrow" aria-hidden="true"></i>
-                      </form>
-                </div>
+          <div id="fullpage">
+              <div class="section">
+                  <div class="row">
+                      <div class="col-xs-12 vcenter" id="questions_div">
+                          <div class="center_block">
+                              <h1>Ask a question</h1>
+                              <form action="/create" method="POST">
+                                 <input class="form-control input-lg" id="question" type="text" name="question" placeholder="Are you feeling it now Mr. Krabs?" />
+                                  <i class="fa fa-arrow-circle-down downarrow" aria-hidden="true"></i>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
               </div>
-          </div>
+              <div class="section">
+                  <div class="row">
+                      <div class="col-xs-12 vcenter" id="questions_div">
+                          <div class="center_block">
+                              <i class="fa fa-arrow-circle-up uparrow" aria-hidden="true"></i>
+                              <h1>Options</h1>
+
+
+                              <div class="form-group">
+                                                <div class="input-group">
+                                                  <span class="input-group-addon">A</span>
+                                                  <input type="text" class="form-control">
+                                                  <span class="input-group-btn">
+                                                  </span>
+                                                </div>
+                                  </div>
+                                  <div class="form-group">
+                                                    <div class="input-group">
+                                                      <span class="input-group-addon">B</span>
+                                                      <input type="text" class="form-control">
+                                                      <span class="input-group-btn">
+                                                      </span>
+                                                    </div>
+                                      </div>
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+        </div>
       </div>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.1/jquery.fullPage.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   </body>
   <script>
     $(document).ready(function() {
+        $('#fullpage').fullpage();
         $('#question').focus();
         $('.downarrow').click(function(e) {
-            e.preventDefault();
+
+            $.fn.fullpage.moveSectionDown();
+
             var options = [];
             $('#options').children('input').each(function() {
                 options.push(this.value);
@@ -90,8 +122,12 @@
                 },
                 success: function(result) {
                     window.location.href="/view/" + JSON.parse(result).poll_id;
-                 }
+                }
             });
+        });
+
+        $('.uparrow').click(function(e) {
+            $.fn.fullpage.moveSectionUp();
         });
     });
 
