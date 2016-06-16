@@ -67,7 +67,11 @@
 
             // Answer poll
             var socket = io();
+            var previous_button;
             $('button').click(function(){
+                if (typeof previous_button === "undefined") {
+                    previous_button = $(this).val();
+                }
                 // Add green background if selected
                 // Keep a data-selected to know if we're selecting or deselecting
 
@@ -79,7 +83,8 @@
                 // Emit the selected option to the 'poll:answer' channel with the poll_id and selected option
                 var answer_information = {
                     poll_id: window.location.pathname.substr(1),
-                    answer: $(this).val()
+                    answer: $(this).val(),
+                    vote_type: 'set'
                 };
 
                 if (selected === 1 ) {
@@ -90,7 +95,18 @@
                     $(this).css('background-color', 'green');
                 }
 
+                if (previous_button != $(this).val()) {
+                    var answer_information_prev = {
+                        poll_id: window.location.pathname.substr(1),
+                        answer: previous_button,
+                        vote: -1,
+                        vote_type: 'unset'
+                    };
+                    socket.emit('poll:answers', JSON.stringify(answer_information_prev));
+                }
+
                 socket.emit('poll:answers', JSON.stringify(answer_information));
+                previous_button = $(this).val();
             });
         });
       </script>
