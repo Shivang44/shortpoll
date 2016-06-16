@@ -38,6 +38,9 @@
             .btn-success:focus{
                 background-color: #22B24C;
             }
+            h1 {
+                font-size: 4em;
+            }
         </style>
       </head>
       <body>
@@ -48,7 +51,7 @@
                            <h1 style="margin-bottom: 25px;">{{ poll_obj.question }}</h1>
                                <ul id="answerul">
                                    {{#each poll_obj.options }}
-                                   <li><button class="btn btn-primary button_choice" value="{{ @index }}" data-selected="0">{{ this }}</button></li>
+                                   <li><button class="btn btn-primary" value="{{ @index }}" data-selected="0">{{ this }}</button></li>
                                    {{/each}}
                              </ul>
                       </div>
