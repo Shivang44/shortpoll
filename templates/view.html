@@ -15,7 +15,15 @@
             <h1>{{ poll_obj.question }}</h1>
         </div>
       </body>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>      <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+      <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
       <script>
+        var socket = io();
+        var poll_id = window.location.pathname.substr(-5);
+        socket.emit('poll:view:responses', poll_id);
+        socket.on('poll:' + poll_id + ':answers', function(msg) {
+            console.log(msg);
+        });
+
       </script>
 </html>
