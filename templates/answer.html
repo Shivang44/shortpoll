@@ -39,10 +39,38 @@
             .button_choice {
                 width: 115px;
             }
+            .vcenter {
+                min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+                min-height: 100vh; /* These two lines are counted as one :-)       */
+                display: flex;
+                align-items: center;
+            }
+            .center_block {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
         </style>
       </head>
       <body>
-          <div class="wrapper">
+          <div class="container">
+              <div class="row">
+                  <div class="col-xs-12">
+                      <div class="center_block">
+                           <h1 style="margin-bottom: 25px;">{{ poll_obj.question }}</h1>
+                           <div class="answer">
+                               <ul id="answerul">
+                                   {{#each poll_obj.options }}
+                                   <li><button class="btn btn-primary button_choice" value="{{ @index }}" data-selected="0">{{ this }}</button></li>
+                                   {{/each}}
+                             </ul>
+                         </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+         <!-- <div class="wrapper">
               <div class="content">
                       <h1 style="margin-bottom: 25px;">{{ poll_obj.question }}</h1>
                       <div class="answer">
@@ -53,7 +81,7 @@
                         </ul>
                   </div>
             </div>
-        </div>
+        </div>-->
       </body>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
       <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
