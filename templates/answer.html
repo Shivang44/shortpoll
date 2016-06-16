@@ -68,8 +68,20 @@
             // Answer poll
             var socket = io();
             $('button').click(function(){
+                // Add green background if selected
                 $('button').not(this).removeAttr('style');
                 $(this).css('background-color', 'green');
+
+                // Keep a data-selected to know if we're selecting or deselecting
+                var selected = ($(this).data('selected') === 0) ? 1 : 0;
+                $(this).data('selected', selected);
+                if (selected === 1) {
+                    alert('selecting option');
+                } else if (selected === 0) {
+                    alert('delsecting option');
+                    $(this).removeAttr('style');
+                }
+
                 // Emit the selected option to the 'poll:answer' channel with the poll_id and selected option
                 var answer_information = {
                     poll_id: window.location.pathname.substr(1),
