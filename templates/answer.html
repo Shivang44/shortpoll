@@ -17,7 +17,7 @@
                 padding-right: 15px;
             }
             .button_choice {
-                width: 150px;
+                width: 200px;
             }
             .vcenter {
                 min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
@@ -39,7 +39,17 @@
                 background-color: #22B24C;
             }
             h1 {
-                font-size: 4em;
+                font-size: 3.5em;
+            }
+            @media (min-width: 992px) {
+                .container {
+                    max-width: 750px;
+                }
+            }
+            @media (min-width: 1200px) {
+                .container {
+                    max-width: 750px;
+                }
             }
         </style>
       </head>
@@ -51,7 +61,7 @@
                            <h1 style="margin-bottom: 25px;">{{ poll_obj.question }}</h1>
                                <ul id="answerul">
                                    {{#each poll_obj.options }}
-                                   <li><button class="btn btn-primary" value="{{ @index }}" data-selected="0">{{ this }}</button></li>
+                                   <li><button class="btn btn-primary btn-lg button_choice" value="{{ @index }}" data-selected="0">{{ this }}</button></li>
                                    {{/each}}
                              </ul>
                       </div>
