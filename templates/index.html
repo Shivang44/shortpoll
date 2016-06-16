@@ -17,54 +17,78 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-    .container {
-        text-align: center;
+    h1 {
+        font-size: 4em;
     }
-    .section {
-
+    .vcenter {
+        min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+        min-height: 100vh; /* These two lines are counted as one :-)       */
+        display: flex;
+        align-items: center;
+    }
+    .center_block {
+        text-align: center;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+    #question {
+        margin-top: 20px;
     }
     </style>
   </head>
   <body>
       <div class="container">
-          <h1>Ask a question</h1>
-          <form action="/create" method="POST">
-             <input type="text" name="question" id="question" />
-             <h1>Options</h1>
-              <div class="section" id="options">
-                  <input type="text" name="option1" /><br />
-                  <input type="text" name="option2" /><br />
-                  <input type="text" name="option3" /><br />
-                  <input type="text" name="option4" /><br />
+          <div class="row">
+              <div class="col-xs-12 vcenter">
+                  <div class="center_block">
+                      <h1>Ask a question</h1>
+                      <form action="/create" method="POST">
+                         <input class="form-control input-lg" id="question" type="text" name="question" placeholder="Are you feeling it now Mr. Krabs?" />
+                         <!--
+                         <h1>Options</h1>
+                          <div id="options">
+                              <input type="text" name="option1" /><br />
+                              <input type="text" name="option2" /><br />
+                              <input type="text" name="option3" /><br />
+                              <input type="text" name="option4" /><br />
+                          </div>-->
+                          <br />
+                          <input type="submit" value="Continue" class="btn btn-primary btn-lg" />
+                      </form>
+                </div>
               </div>
-              <br />
-              <input type="submit" value="Generate Poll" class="btn btn-primary btn-lg" />
-          </form>
+          </div>
       </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   </body>
   <script>
-    $('form').submit(function(e) {
-        e.preventDefault();
-        var options = [];
-        $('#options').children('input').each(function() {
-            options.push(this.value);
-        });
-        $.ajax({
-            type: "POST",
-            url: "/create",
-            data: {
-                "question": $('#question').val(),
-                "options": options
-            },
-            success: function(result) {
-                window.location.href="/view/" + JSON.parse(result).poll_id;
-             }
+    $(document).ready(function() {
+        $('#question').focus();
+        $('form').submit(function(e) {
+            e.preventDefault();
+            var options = [];
+            $('#options').children('input').each(function() {
+                options.push(this.value);
+            });
+            $.ajax({
+                type: "POST",
+                url: "/create",
+                data: {
+                    "question": $('#question').val(),
+                    "options": options
+                },
+                success: function(result) {
+                    window.location.href="/view/" + JSON.parse(result).poll_id;
+                 }
+            });
         });
     });
+
 
   </script>
 </html>
