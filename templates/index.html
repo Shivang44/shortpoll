@@ -1,49 +1,70 @@
 <!DOCTYPE html>
-<html>
-      <head>
-        <meta charset="UTF-8">
-        <title>{{ title }}</title>
-        <style>
-            .section {
-                margin: 10px;
-            }
-        </style>
-      </head>
-      <body>
-          <div>
-              <form action="/create" method="POST">
-                  <div class="section">1. Question <input type="text" name="question" id="question" /></div>
-                  <div class="section" id="options">
-                      2. Options
-                      <input type="text" name="option1" />
-                      <input type="text" name="option2" />
-                      <input type="text" name="option3" />
-                      <input type="text" name="option4" />
-                  </div>
-                  <div class="section">3. Generate Poll <input type="submit" value="Generate Poll"/></div>
-              </form>
-          </div>
-      </body>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
-      <script>
-        $('form').submit(function(e) {
-            e.preventDefault();
-            var options = [];
-            $('#options').children('input').each(function() {
-                options.push(this.value);
-            });
-            $.ajax({
-                type: "POST",
-                url: "/create",
-                data: {
-                    "question": $('#question').val(),
-                    "options": options
-                },
-                success: function(result) {
-                    window.location.href="/view/" + JSON.parse(result).poll_id;
-                 }
-            });
-        });
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>{{ title }}</title>
 
-      </script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    .container {
+        text-align: center;
+    }
+    .section {
+
+    }
+    </style>
+  </head>
+  <body>
+      <div class="container">
+          <h1>Ask a question</h1>
+          <form action="/create" method="POST">
+             <input type="text" name="question" id="question" />
+             <h1>Options</h1>
+              <div class="section" id="options">
+                  <input type="text" name="option1" /><br />
+                  <input type="text" name="option2" /><br />
+                  <input type="text" name="option3" /><br />
+                  <input type="text" name="option4" /><br />
+              </div>
+              <br />
+              <input type="submit" value="Generate Poll" class="btn btn-primary btn-lg" />
+          </form>
+      </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  </body>
+  <script>
+    $('form').submit(function(e) {
+        e.preventDefault();
+        var options = [];
+        $('#options').children('input').each(function() {
+            options.push(this.value);
+        });
+        $.ajax({
+            type: "POST",
+            url: "/create",
+            data: {
+                "question": $('#question').val(),
+                "options": options
+            },
+            success: function(result) {
+                window.location.href="/view/" + JSON.parse(result).poll_id;
+             }
+        });
+    });
+
+  </script>
 </html>
