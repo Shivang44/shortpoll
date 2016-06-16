@@ -68,16 +68,8 @@
             // Answer poll
             var socket = io();
             $('button').click(function(){
-                var button = $(this);
-                var selected = button.data('selected');
-                if (selected === 0) {
-                    total_selected = 1;
-                    button.css('background-color', 'green');
-                    button.data('selected', 1);
-                } else if (selected === 1) {
-                    button.removeAttr('style');
-                    button.data('selected', 0);
-                }
+                $('button').not(this).removeAttr('style');
+                $(this).css('background-color', 'green');
                 // Emit the selected option to the 'poll:answer' channel with the poll_id and selected option
                 var answer_information = {
                     poll_id: window.location.pathname.substr(1),
