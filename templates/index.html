@@ -23,7 +23,7 @@
     <![endif]-->
     <style>
     h1 {
-        font-size: 75px;
+        font-size: 4em;
     }
     .vcenter {
         min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
@@ -47,6 +47,20 @@
         border-color: #eb6864;
         font-size: 100px;
     }
+    .downarrow:hover, .uparrow:hover {
+        color: #E53C37;
+    }
+    @media (min-width: 992px) {
+        .container {
+            max-width: 750px;
+        }
+    }
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 750px;
+        }
+    }
+
     </style>
   </head>
   <body>
@@ -57,10 +71,8 @@
                       <div class="col-xs-12 vcenter" id="questions_div">
                           <div class="center_block">
                               <h1>Ask a question</h1>
-                              <form action="/create" method="POST">
-                                 <input class="form-control input-lg" id="question" type="text" name="question" placeholder="Are you feeling it now Mr. Krabs?" />
+                                 <input class="form-control input-lg" id="question" type="text" name="question" />
                                   <i class="fa fa-arrow-circle-down downarrow" aria-hidden="true"></i>
-                              </form>
                           </div>
                       </div>
                   </div>
@@ -68,26 +80,42 @@
               <div class="section">
                   <div class="row">
                       <div class="col-xs-12 vcenter" id="questions_div">
-                          <div class="center_block">
+                          <div class="center_block" style="width: 50%;">
                               <i class="fa fa-arrow-circle-up uparrow" aria-hidden="true"></i>
                               <h1 style="margin-bottom: 25px;">Options</h1>
                               <div class="form-group">
-                                                <div class="input-group">
-                                                  <span class="input-group-addon">A</span>
-                                                  <input type="text" class="form-control">
-                                                  <span class="input-group-btn">
-                                                  </span>
-                                                </div>
+                                  <div class="input-group">
+                                      <span class="input-group-addon">A</span>
+                                      <input type="text" class="form-control" id="option1">
+                                      <span class="input-group-btn">
+                                      </span>
                                   </div>
-                                  <div class="form-group">
-                                                    <div class="input-group">
-                                                      <span class="input-group-addon">B</span>
-                                                      <input type="text" class="form-control">
-                                                      <span class="input-group-btn">
-                                                      </span>
-                                                    </div>
-                                      </div>
-
+                              </div>
+                              <div class="form-group">
+                                  <div class="input-group">
+                                      <span class="input-group-addon">B</span>
+                                      <input type="text" class="form-control">
+                                      <span class="input-group-btn">
+                                      </span>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <div class="input-group">
+                                      <span class="input-group-addon">C</span>
+                                      <input type="text" class="form-control">
+                                      <span class="input-group-btn">
+                                      </span>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <div class="input-group">
+                                      <span class="input-group-addon">D</span>
+                                      <input type="text" class="form-control">
+                                      <span class="input-group-btn">
+                                      </span>
+                                  </div>
+                              </div>
+                              <a href="#" class="btn btn-primary btn-lg" style="margin-top:15px;">Create poll</a>
                           </div>
                       </div>
                   </div>
@@ -101,33 +129,50 @@
   </body>
   <script>
     $(document).ready(function() {
-        $('#fullpage').fullpage();
-        $('#question').focus();
-        $('.downarrow').click(function(e) {
 
-            $.fn.fullpage.moveSectionDown();
-
-            var options = [];
-            $('#options').children('input').each(function() {
-                options.push(this.value);
-            });
-            $.ajax({
-                type: "POST",
-                url: "/create",
-                data: {
-                    "question": $('#question').val(),
-                    "options": options
-                },
-                success: function(result) {
-                    window.location.href="/view/" + JSON.parse(result).poll_id;
+        $('#fullpage').fullpage({
+            afterLoad : function(anchorLink, index) {
+                if (index === 2) {
+                    $('#option1').focus();
+                } else if (index === 1) {
+                    $('#question').focus();
                 }
-            });
+            }
+        });
+
+        $('#question').focus();
+
+        $('.downarrow').click(function(e) {
+            $.fn.fullpage.moveSectionDown();
         });
 
         $('.uparrow').click(function(e) {
+            $('#question').focus();
             $.fn.fullpage.moveSectionUp();
         });
     });
+
+    /*
+
+
+                var options = [];
+                $('#options').children('input').each(function() {
+                    options.push(this.value);
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/create",
+                    data: {
+                        "question": $('#question').val(),
+                        "options": options
+                    },
+                    success: function(result) {
+                        window.location.href="/view/" + JSON.parse(result).poll_id;
+                    }
+                });
+            });
+
+            */
 
 
   </script>
