@@ -81,8 +81,8 @@
             for (var i = 0; i < Object.keys(msg).length; i++) {
                 chartConf.data.datasets[0].data[i] = parseInt(msg[i]);
             }
-            myChart = new Chart(ctx, chartConf);
-            console.log(chartConf.data.datasets[0].data);
+            myChart.update();
+            console.log("once");
         });
 
 
