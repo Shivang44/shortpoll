@@ -60,7 +60,9 @@
             max-width: 750px;
         }
     }
-
+    .selected {
+        color: #E53C37;
+    }
     </style>
   </head>
   <body>
@@ -82,7 +84,8 @@
                       <div class="col-xs-12 vcenter" id="questions_div">
                           <div class="center_block" style="width: 50%;">
                               <i class="fa fa-arrow-circle-up uparrow" aria-hidden="true"></i>
-                              <h1 style="margin-bottom: 25px;">Options</h1>
+                              <h1 style="margin-bottom: 23px;">Options</h1>
+                              <p id="pollType"><span class="selected">Multiple Choice</span> | <span>Multiselect</span> | <span>Word Input</span></p>
                               <div id="options">
                                   <div class="form-group">
                                       <div class="input-group">
@@ -117,6 +120,7 @@
                                       </div>
                                   </div>
                               </div>
+                              <p style="font-size: 22px; display: none;" id="wordinputinfo">Users will be able to enter their own answers</p>
                               <a href="#" class="btn btn-primary btn-lg" style="margin-top:15px;" id="createpoll">Create poll</a>
                           </div>
                       </div>
@@ -131,25 +135,44 @@
   </body>
   <script>
     $(document).ready(function() {
+        var focus = $(window).width() >= 1200 ? true : false;
         $('input').attr("autocomplete", "off");
+
         $('#fullpage').fullpage({
             afterLoad : function(anchorLink, index) {
                 if (index === 2) {
-                    $('#option1').focus();
+                    if (focus) {
+                        $('#option1').focus();
+                    }
                 } else if (index === 1) {
-                    $('#question').focus();
+                    if (focus) {
+                        $('#question').focus();
+                    }
                 }
             }
         });
 
-        $('#question').focus();
+
+
+        if (focus) {
+            $('#question').focus();
+        }
+
 
         $('.downarrow').click(function(e) {
             $.fn.fullpage.moveSectionDown();
         });
 
+        $('#question').keypress(function(e) {
+            if (e.which == 13) {
+                $.fn.fullpage.moveSectionDown();
+            }
+        });
+
         $('.uparrow').click(function(e) {
-            $('#question').focus();
+            if (focus) {
+                $('#question').focus();
+            }
             $.fn.fullpage.moveSectionUp();
         });
 
@@ -173,6 +196,25 @@
             });
 
 
+        });
+
+        $('#pollType').children('span').click(function(){
+            $(this).addClass('selected');
+            $('#pollType').children('span').not(this).removeClass('selected');
+
+            if ($(this).text() == "Word Input" && $('#options').css('display') != "none") {
+                $('#options').slideUp(function(){
+                    $('#wordinputinfo').slideDown();
+                    $(this).hide();
+                });
+            } else if ($(this).text() != "Word Input") {
+                if ($('#options').css('display') == "none") {
+                    $('#wordinputinfo').hide();
+                    $('#options').show(function(){
+                        $('#options').slideDown();
+                    });
+                }
+            }
         });
     });
 
