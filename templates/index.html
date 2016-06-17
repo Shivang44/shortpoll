@@ -38,6 +38,12 @@
         margin-right: auto;
         width: 100%;
     }
+    #options {
+        width: 50%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
     #question {
         margin-top: 25px;
         margin-bottom: 20px;
@@ -82,7 +88,7 @@
               <div class="section">
                   <div class="row">
                       <div class="col-xs-12 vcenter" id="questions_div">
-                          <div class="center_block" style="width: 50%;">
+                          <div class="center_block">
                               <i class="fa fa-arrow-circle-up uparrow" aria-hidden="true"></i>
                               <h1 style="margin-bottom: 23px;">Set answers.</h1>
                               <p id="pollType"><span class="selected">Multiple Choice</span> | <span>Multiselect</span> | <span>Word Input</span></p>
@@ -220,7 +226,7 @@
 
         $('.last').focusin(function(){
             $(this).removeClass('last');
-            // ... 
+            // ...
         });
     });
 
