@@ -18,65 +18,37 @@
                 <h3>Share this url so people can answer your poll: <a href="/{{poll_obj.poll_id}}">qpoll.io/{{poll_obj.poll_id}}</a> </h3>
                 <h1>{{ poll_obj.question }}</h1>
                 <p id="results"></p>
-                <canvas id="myChart" width="400" height="400"></canvas>
+                 <div id="liveChart" style="width: 100%; height: 70vh;"><!-- Plotly chart will be drawn inside this DIV --></div>
             </div>
         </div>
       </body>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>      <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
       <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
+      <script src="/echarts.min.js"></script>
       <script>
         // Chartjs
+        var liveChart = echarts.init(document.getElementById('liveChart'));
 
-        console.log(screen.width, screen.height);
-        var ctx = $('#myChart');
-        ctx.attr('width', screen.width);
-        ctx.attr('height', screen.height);
-        var chartConf = {
-            type: 'bar',
-            data: {
-                labels: [
-                    {{#each poll_obj.options }}
-                    "{{this}}",
-                    {{/each}}
-                ],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [
-                        {{#each poll_obj.options }}
-                        0,
-                        {{/each}}
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+        var option = {
+            title: {
+                text: 'Poll Results'
             },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        }
-        var myChart = new Chart(ctx, chartConf);
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+        };
+
+        liveChart.setOption(option);
 
         var socket = io();
         var poll_id = window.location.pathname.substr(-5);
@@ -87,10 +59,8 @@
         // Update chart as the data flows in
         socket.on('poll:' + poll_id + ':answers', function(msg) {
             for (var i = 0; i < Object.keys(msg).length; i++) {
-                chartConf.data.datasets[0].data[i] = parseInt(msg[i]);
+                data[0].y[i] = parseInt(msg[i]);
             }
-            myChart.update();
-            console.log("once");
         });
 
 
