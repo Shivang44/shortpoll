@@ -38,22 +38,19 @@
         // Chartjs
         var liveChart = echarts.init(document.getElementById('liveChart'));
 
+        var data = [0, 0, 0, 0];
         var option = {
             title: {
                 text: "{{ poll_obj.question }}"
             },
-            tooltip: {},
-            legend: {
-                data:['销量']
-            },
             xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                data: ["A", "B", "C", "D"]
             },
             yAxis: {},
             series: [{
-                name: '销量',
+                name: 'Default',
                 type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
+                data: data
             }]
         };
 
@@ -68,8 +65,10 @@
         // Update chart as the data flows in
         socket.on('poll:' + poll_id + ':answers', function(msg) {
             for (var i = 0; i < Object.keys(msg).length; i++) {
-                data[0].y[i] = parseInt(msg[i]);
+                data[i] = parseInt(msg[i]);
             }
+            console.log(data);
+            liveChart.setOption(option);
         });
 
 
