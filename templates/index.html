@@ -220,12 +220,12 @@
             $(this).addClass('selected');
             $('#pollType').children('span').not(this).removeClass('selected');
 
-            if ($(this).text() == "Word Input" && $('#options').css('display') != "none") {
+            if ($(this).text() == "Public Input" && $('#options').css('display') != "none") {
                 $('#options').slideUp(function(){
                     $('#wordinputinfo').slideDown();
                     $(this).hide();
                 });
-            } else if ($(this).text() != "Word Input") {
+            } else if ($(this).text() != "Public Input") {
                 if ($('#options').css('display') == "none") {
                     $('#wordinputinfo').hide();
                     $('#options').show(function(){
