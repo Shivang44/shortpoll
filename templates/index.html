@@ -76,6 +76,12 @@
     .selected {
         color: #E53C37;
     }
+    .addremove {
+        padding-right: 8px;
+        font-size: 19px;
+        margin-top: -8px;
+        margin-bottom: -8px;
+    }
     </style>
   </head>
   <body>
@@ -104,34 +110,30 @@
                                       <div class="input-group">
                                           <span class="input-group-addon">A</span>
                                           <input type="text" class="form-control" id="option1">
-                                          <span class="input-group-btn">
-                                          </span>
                                       </div>
                                   </div>
                                   <div class="form-group">
                                       <div class="input-group">
                                           <span class="input-group-addon">B</span>
                                           <input type="text" class="form-control">
-                                          <span class="input-group-btn">
-                                          </span>
                                       </div>
                                   </div>
                                   <div class="form-group">
                                       <div class="input-group">
                                           <span class="input-group-addon">C</span>
                                           <input type="text" class="form-control">
-                                          <span class="input-group-btn">
-                                          </span>
                                       </div>
                                   </div>
-                                  <div class="form-group">
+                                  <div class="form-group optionform">
                                       <div class="input-group">
                                           <span class="input-group-addon">D</span>
-                                          <input type="text" class="form-control" class="last">
-                                          <span class="input-group-btn">
-                                          </span>
+                                          <input type="text" class="form-control">
                                       </div>
                                   </div>
+                              </div>
+                              <div class="plusminus">
+                                  <i class="fa fa-plus addremove" aria-hidden="true"></i>
+                                  <i class="fa fa-minus addremove" aria-hidden="true"></i>
                               </div>
                               <p style="font-size: 22px; display: none;" id="wordinputinfo">Users will enter their own answers.</p>
                               <a href="#" class="btn btn-primary btn-lg" style="margin-top:15px;" id="createpoll">Create poll</a>
@@ -236,10 +238,24 @@
         });
 
 
-        $('.last').focusin(function(){
-            $(this).removeClass('last');
-            // ...
+        var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        $('.fa-plus').click(function() {
+            var clone = $('.optionform').removeClass('optionform').clone();
+            clone.appendTo('#options').addClass('optionform');
+            var current_letter = clone.find('.input-group-addon').text();
+            if (current_letter === 'Z' ) {
+                alert ('Sorry you cannot add anymore options after Z. Why would you want to anyway? Learn to make a simple poll, man.');
+            }
+            var current_letter_index = alphabet.indexOf(current_letter) + 1;
+            clone.find('.input-group-addon').text(alphabet[current_letter_index]);
+
         });
+
+        $('.fa-minus').click(function() {
+
+        });
+
+
     });
 
 
