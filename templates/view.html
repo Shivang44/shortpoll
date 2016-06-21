@@ -30,7 +30,6 @@
       <script>
         // Chartjs
 
-        console.log(screen.width, screen.height);
         var ctx = $('#myChart');
         var chartConf = {
             type: 'bar',
@@ -72,6 +71,7 @@
                             stepSize: 1,
                             callback: function (tickValue, index, ticks) {
                                 if(!(index % parseInt(ticks.length / 5))) {
+                                    return tickValue;
                                }
                             }
 
