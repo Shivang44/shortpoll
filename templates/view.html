@@ -70,9 +70,11 @@
                         ticks: {
                             beginAtZero:true,
                             stepSize: 1,
-                            min: 0,
-                            max: 100,
-                            maxTicksLimit: 5
+                            callback: function (tickValue, index, ticks) {
+                                if(!(index % parseInt(ticks.length / 5))) {
+                               }
+                            }
+
                         }
                     }]
                 }
@@ -93,7 +95,6 @@
                 chartConf.data.datasets[0].data[i] = parseInt(msg[i]);
             }
             myChart.update();
-            console.log("once");
         });
 
 
