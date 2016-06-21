@@ -110,6 +110,7 @@
             // If user already answsered (and is returning to page), retrieve his vote from localStorage
             if (localStorage.getItem(poll_id) !== null) {
                 $("button[value=" + localStorage.getItem(poll_id) + "]").addClass('btn-success');
+                previous_value = "";
             }
             $('button').click(function(){
                 var initial = false;
