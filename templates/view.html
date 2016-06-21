@@ -2,6 +2,8 @@
 <html>
       <head>
         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ title }}</title>
         <style>
             .section {
@@ -39,42 +41,45 @@
                     {{/each}}
                 ],
                 datasets: [{
-                    label: '# of Votes',
+                    label: 'Poll Results',
                     data: [
                         {{#each poll_obj.options }}
                         0,
                         {{/each}}
                     ],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
+                        'rgba(235,104,100,1)',
+                        'rgba(235,104,100,1)',
+                        'rgba(235,104,100,1)',
+                        'rgba(235,104,100,1)',
+                        'rgba(235,104,100,1)',
+                        'rgba(235,104,100,1)',
+                        'rgba(235,104,100,1)',
+                        'rgba(235,104,100,1)',
+                        'rgba(235,104,100,1)',
+                        'rgba(235,104,100,1)',
+                    ]
                 }]
             },
             options: {
+                legend: {
+                    display: false
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero:true
+                            beginAtZero:true,
+                            stepSize: 1,
+                            min: 0,
+                            max: 100,
+                            maxTicksLimit: 5
                         }
                     }]
                 }
             }
         }
         var myChart = new Chart(ctx, chartConf);
+        Chart.defaults.global.defaultFontSize = 18;
 
         var socket = io();
         var poll_id = window.location.pathname.substr(-5);
