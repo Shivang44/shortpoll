@@ -90,7 +90,7 @@
             </div>
         </div>-->
       </body>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
       <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
       <script>
         $(document).ready(function() {
@@ -104,47 +104,51 @@
 
             // Answer poll
             var socket = io();
-            var previous_button;
+            var previous_value = null;
+            var poll_id = window.location.pathname.substr(1);
+
+            // If user already answsered (and is returning to page), retrieve his vote from localStorage
+            if (localStorage.getItem(poll_id) !== null) {
+                $("button[value=" + localStorage.getItem(poll_id) + "]").addClass('btn-success');
+            }
             $('button').click(function(){
-                if (typeof previous_button === "undefined") {
-                    previous_button = $(this).val();
+                var initial = false;
+
+                // Set the value of the new vote
+                var new_value = $(this).val();
+
+                if (previous_value === null) {
+                    // Initial vote
+                    initial = true;
+                    previous_value = $(this).val();
+                } else {
+                    // A change of vote
+                    previous_value = $('.btn-success').val();
                 }
-                // Add green background if selected
-                // Keep a data-selected to know if we're selecting or deselecting
 
-                var selected = $(this).data('selected');
-                $('button').not(this).removeClass('btn-success').addClass('btn-primary');
-                $('button').not(this).data('selected', 0);
-                $(this).data('selected', (selected === 0) ? 1 : 0);
+                // Set the previous_value in localStorage in case of a refresh
+                localStorage.setItem(poll_id, new_value);
 
-                // Emit the selected option to the 'poll:answer' channel with the poll_id and selected option
+                if (previous_value === new_value && initial === false) {
+                    // The user just clicked the same button again, don't waste the server's breathe
+                    return;
+                }
+
+                console.log(previous_value, new_value);
+
+                // Color the clicked button green, remove green from all other buttons
+                $(this).addClass('btn-success');
+                $('button').not(this).removeClass('btn-success');
+
+
                 var answer_information = {
-                    poll_id: window.location.pathname.substr(1),
-                    answer: $(this).val(),
-                    vote_type: 'set'
+                    poll_id: poll_id,
+                    prev_value: previous_value,
+                    new_value: new_value,
                 };
 
-                if (selected === 1 ) {
-                    answer_information.vote = -1;
-                    $(this).removeClass('btn-success').addClass('btn-primary');
-                } else {
-                    answer_information.vote = 1;
-                    //$(this).css('background-color', 'green');
-                    $(this).removeClass('btn-primary').addClass('btn-success');
-                }
-
-                if (previous_button != $(this).val()) {
-                    var answer_information_prev = {
-                        poll_id: window.location.pathname.substr(1),
-                        answer: previous_button,
-                        vote: -1,
-                        vote_type: 'unset'
-                    };
-                    socket.emit('poll:answers', JSON.stringify(answer_information_prev));
-                }
-
                 socket.emit('poll:answers', JSON.stringify(answer_information));
-                previous_button = $(this).val();
+
             });
         });
       </script>
