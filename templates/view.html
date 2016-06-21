@@ -2,20 +2,10 @@
 <html>
       <head>
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ title }}</title>
         <style>
             .section {
                 margin: 10px;
-            }
-            @media (max-width: 400px) {
-                h1 {
-                    font-size: 3em;
-                }
-            }
-            .share {
-                color: #777;
             }
         </style>
         <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css" />
@@ -25,50 +15,66 @@
       <body>
           <div class="container">
               <div style="text-align:center;">
-                <h3 class="share">Share this poll url: <a href="/{{poll_obj.poll_id}}">qpoll.com/{{poll_obj.poll_id}}</a> </h3>
+                <h3>Share this url so people can answer your poll: <a href="/{{poll_obj.poll_id}}">qpoll.io/{{poll_obj.poll_id}}</a> </h3>
+                <h1>{{ poll_obj.question }}</h1>
                 <p id="results"></p>
-                 <div id="liveChart" style="width: 100%; height: 70vh;"></div>
+                <canvas id="myChart" width="100%" height="70vh"></canvas>
             </div>
         </div>
       </body>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>      <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
       <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-      <script src="/echarts.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
       <script>
         // Chartjs
-        var liveChart = echarts.init(document.getElementById('liveChart'));
 
-        var data = [0, 0, 0, 0];
-        var option = {
-            title: {
-                text: "{{ poll_obj.question }}",
-                subtext: "Poll Results",
-                left: "center"
+        console.log(screen.width, screen.height);
+        var ctx = $('#myChart');
+        var chartConf = {
+            type: 'bar',
+            data: {
+                labels: [
+                    {{#each poll_obj.options }}
+                    "{{this}}",
+                    {{/each}}
+                ],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [
+                        {{#each poll_obj.options }}
+                        0,
+                        {{/each}}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
             },
-            xAxis: {
-                data: ["A", "B", "C", "D"]
-            },
-            yAxis: {},
-            series: [{
-                name: 'Default',
-                type: 'bar',
-                data: data,
-                itemStyle: {
-                    normal: {
-                        color: 'rgba(235,104,100,1)'
-                    }
-                },
-                label: {
-                    normal: {
-                        show: true,
-                        position: 'top',
-                        color: 'rgba(0,0,0,0)'
-                    }
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
                 }
-            }]
-        };
-
-        liveChart.setOption(option);
+            }
+        }
+        var myChart = new Chart(ctx, chartConf);
 
         var socket = io();
         var poll_id = window.location.pathname.substr(-5);
@@ -79,10 +85,10 @@
         // Update chart as the data flows in
         socket.on('poll:' + poll_id + ':answers', function(msg) {
             for (var i = 0; i < Object.keys(msg).length; i++) {
-                data[i] = parseInt(msg[i]);
+                chartConf.data.datasets[0].data[i] = parseInt(msg[i]);
             }
-            console.log(data);
-            liveChart.setOption(option);
+            myChart.update();
+            console.log("once");
         });
 
 

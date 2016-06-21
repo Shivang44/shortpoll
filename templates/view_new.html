@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+        <style>
+            .section {
+                margin: 10px;
+            }
+            @media (max-width: 400px) {
+                h1 {
+                    font-size: 3em;
+                }
+            }
+            .share {
+                color: #777;
+            }
+            .ct-series-a .ct-bar {
+                stroke-width: 25px;
+                stroke: #eb6864;
+            }
+            .ct-label {
+                font-size: 1em;
+                color: #777;
+            }
+        </style>
+      </head>
+      <body>
+          <div class="container">
+              <div style="text-align:center;">
+                <h3 class="share">Share this poll url: <a href="/{{poll_obj.poll_id}}">qpoll.com/{{poll_obj.poll_id}}</a> </h3>
+                <p id="results"></p>
+                 <div id="liveChart" class="ct-chart"></div>
+            </div>
+        </div>
+      </body>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+      <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+      <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+        <script type="text/javascript">
+        // As options we currently only set a static size of 300x200 px. We can also omit this and use aspect ratio containers
+        // as you saw in the previous example
+        var options = {
+          width: '100%',
+          height: '70vh',
+          axisY: {
+              onlyInteger: true
+          }
+        };
+
+        var data = {
+          // A labels array that can contain any sort of values
+          labels: ['Mon', 'Tue', 'Wed', 'Thu'],
+          // Our series array that contains series objects or in this case series data arrays
+          series: [[0,0,0,0]]
+        };
+
+        var chart = new Chartist.Bar('.ct-chart', data, options);
+
+        chart.on('draw', function(data) {
+            if (data.type === 'bar') {
+                data.element.animate({
+                    d: {
+                        begin: 2000 * data.index,
+                        dur: 2000,
+                        from: 0,
+                        to: 1,
+                        easing: Chartist.Svg.Easing.easeOutQuint
+
+                    }
+                });
+            }
+        });
+
+        // Retrieve new poll data
+        var socket = io();
+        var poll_id = window.location.pathname.substr(-5);
+
+        // Ask to view responses for specified poll_id (this will set up redis sub)
+        socket.emit('poll:view:responses', poll_id);
+
+        socket.on('poll:' + poll_id + ':answers', function(msg) {
+
+
+            for (var i = 0; i < Object.keys(msg).length; i++) {
+                data.series[0][i] = parseInt(msg[i]);
+            }
+
+
+        });
+
+
+        </script>
+
+      <script src="/echarts.min.js"></script>
+      <script>
+        // Chartjs
+        /*var liveChart = echarts.init(document.getElementById('liveChart'));
+
+        var data = [0, 0, 0, 0];
+        var option = {
+            title: {
+                text: "{{ poll_obj.question }}",
+                subtext: "Poll Results",
+                left: "center"
+            },
+            xAxis: {
+                data: ["A", "B", "C", "D"]
+            },
+            yAxis: {},
+            series: [{
+                name: 'Default',
+                type: 'bar',
+                data: data,
+                itemStyle: {
+                    normal: {
+                        color: 'rgba(235,104,100,1)'
+                    }
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        color: 'rgba(0,0,0,0)'
+                    }
+                }
+            }]
+        };
+
+        liveChart.setOption(option);
+
+        var socket = io();
+        var poll_id = window.location.pathname.substr(-5);
+
+        // Ask to view responses for specified poll_id (this will set up redis sub)
+        socket.emit('poll:view:responses', poll_id);
+
+        // Update chart as the data flows in
+        socket.on('poll:' + poll_id + ':answers', function(msg) {
+            for (var i = 0; i < Object.keys(msg).length; i++) {
+                data[i] = parseInt(msg[i]);
+            }
+            console.log(data);
+            liveChart.setOption(option);
+        });
+
+*/
+
+      </script>
+</html>
