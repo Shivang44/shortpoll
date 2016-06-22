@@ -88,8 +88,8 @@
         window.paceOptions = {
             restartOnRequestAfter: true,
             startOnPageLoad: false
-};
-</script>
+        };
+        </script>
         <script src="https://cdn.rawgit.com/HubSpot/pace/v1.0.0/pace.min.js"></script>
       </head>
       <body>
@@ -164,9 +164,6 @@
                     // The user just clicked the same button again, don't waste the server's breathe
                     return;
                 }
-
-                console.log(previous_value, new_value);
-
                 // Color the clicked button green, remove green from all other buttons
                 $(this).addClass('btn-success');
                 $('button').not(this).removeClass('btn-success');
@@ -179,9 +176,6 @@
                 };
 
                 socket.emit('poll:answers', JSON.stringify(answer_information));
-                $.get('/', function(response) {
-                    console.log(response);
-                });
             });
         });
       </script>
