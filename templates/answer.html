@@ -60,37 +60,7 @@
                     font-size: 3em;
                 }
             }
-
-            .pace {
-          -webkit-pointer-events: none;
-          pointer-events: none;
-
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          user-select: none;
-        }
-
-        .pace-inactive {
-          display: none;
-        }
-
-        .pace .pace-progress {
-          background: #E53C37;
-          position: fixed;
-          z-index: 2000;
-          top: 0;
-          right: 100%;
-          width: 100%;
-          height: 2px;
-        }
         </style>
-        <script>
-        window.paceOptions = {
-            restartOnRequestAfter: true,
-            startOnPageLoad: false
-        };
-        </script>
-        <script src="https://cdn.rawgit.com/HubSpot/pace/v1.0.0/pace.min.js"></script>
       </head>
       <body>
           <div class="container">
@@ -122,6 +92,7 @@
       </body>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
       <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+      <script src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
       <script>
         $(document).ready(function() {
             // Add letter choice to text choice
@@ -176,6 +147,12 @@
                 };
 
                 socket.emit('poll:answers', JSON.stringify(answer_information));
+                if (previous_value === new_value) {
+                    $.notify("Vote submitted", "success");
+                } else {
+                    $.notify("Vote changed", "success");
+                }
+
             });
         });
       </script>
