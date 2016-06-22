@@ -132,8 +132,8 @@
                                   </div>
                               </div>
                               <div class="plusminus">
-                                  <i class="fa fa-plus addremove" aria-hidden="true"></i>
                                   <i class="fa fa-minus addremove" aria-hidden="true"></i>
+                                  <i class="fa fa-plus addremove" aria-hidden="true"></i>
                               </div>
                               <p style="font-size: 22px; display: none;" id="wordinputinfo">Users will enter their own answers.</p>
                               <a href="#" class="btn btn-primary btn-lg" style="margin-top:15px;" id="createpoll">Create poll</a>
@@ -238,8 +238,10 @@
         });
 
 
-        var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        $('.fa-plus').click(function() {
+
+        $('.fa-plus').on('click', function() {
+            var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+            console.log('clicked plus button');
             var clone = $('.optionform').removeClass('optionform').clone();
             clone.appendTo('#options').addClass('optionform');
             var current_letter = clone.find('.input-group-addon').text();
@@ -248,11 +250,12 @@
             }
             var current_letter_index = alphabet.indexOf(current_letter) + 1;
             clone.find('.input-group-addon').text(alphabet[current_letter_index]);
+            $.fn.fullpage.reBuild();
 
         });
 
         $('.fa-minus').click(function() {
-
+            $.fn.fullpage.reBuild();
         });
 
 
