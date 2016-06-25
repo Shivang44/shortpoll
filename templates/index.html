@@ -178,6 +178,11 @@
             $('#question').focus();
         }
 
+        $('input').focus(function() {
+            console.log('focused an input field');
+            $.fn.fullpage.reBuild();
+        });
+
 
         $('.downarrow').click(function(e) {
             $.fn.fullpage.moveSectionDown();
