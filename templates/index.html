@@ -170,7 +170,11 @@
             touchSensitivity: 10,
             scrollOverflowOptions: {
                 scrollbars: false
-            }
+            },
+        });
+
+        $('input').blur(function(){
+            $.fn.fullpage.reBuild();
         });
 
         if (focus) {
