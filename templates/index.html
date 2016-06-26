@@ -179,6 +179,7 @@
 
         $('.downarrow').click(function(e) {
             $.fn.fullpage.moveSectionDown();
+            $.fn.fullpage.reBuild();
         });
 
         $('#question').keypress(function(e) {
@@ -192,6 +193,7 @@
                 $('#question').focus();
             }
             $.fn.fullpage.moveSectionUp();
+            $.fn.fullpage.reBuild();
         });
 
         $('#createpoll').click(function(e) {
