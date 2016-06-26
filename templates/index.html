@@ -109,7 +109,7 @@
                                   <div class="form-group">
                                       <div class="input-group">
                                           <span class="input-group-addon">A</span>
-                                          <input type="text" class="form-control" id="option1">
+                                          <input type="text" class="form-control testinput" id="option1">
                                       </div>
                                   </div>
                                   <div class="form-group">
@@ -173,7 +173,8 @@
             },
         });
 
-        $('input').blur(function(){
+        $('.testinput').blur(function(){
+            $.fn.fullpage.silentMoveTo(0);
             $.fn.fullpage.reBuild();
         });
 
