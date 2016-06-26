@@ -165,6 +165,7 @@
                     }
                 }
             },
+            setAutoScrolling: false,
             scrollOverflow: true,
             touchSensitivity: 10,
             scrollOverflowOptions: {
@@ -180,12 +181,12 @@
 
         $('input').focus(function() {
             console.log('focused an input field');
-            $.fn.fullpage.reBuild();
+    //        $.fn.fullpage.reBuild();
         });
 
         $('input').blur(function() {
             console.log('unfocused an input field');
-            $.fn.fullpage.reBuild();
+        //    $.fn.fullpage.reBuild();
         });
 
 
