@@ -21,6 +21,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
+    ::-webkit-scrollbar {
+        display: none;
+    }
     h1 {
         font-size: 4em;
     }
@@ -109,25 +112,25 @@
                                   <div class="form-group">
                                       <div class="input-group">
                                           <span class="input-group-addon">A</span>
-                                          <input type="text" class="form-control" id="option1">
+                                          <input type="text" class="form-control option" id="option1">
                                       </div>
                                   </div>
                                   <div class="form-group">
                                       <div class="input-group">
                                           <span class="input-group-addon">B</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control option">
                                       </div>
                                   </div>
                                   <div class="form-group">
                                       <div class="input-group">
                                           <span class="input-group-addon">C</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control option">
                                       </div>
                                   </div>
                                   <div class="form-group optionform">
                                       <div class="input-group">
                                           <span class="input-group-addon">D</span>
-                                          <input type="text" class="form-control">
+                                          <input type="text" class="form-control option">
                                       </div>
                                   </div>
                               </div>
@@ -209,6 +212,10 @@
         });
 
         $('#createpoll').click(function(e) {
+            if (!validateFields()) {
+                alert('You must fill out the question and at least two options!');
+                return false;
+            }
             e.preventDefault();
             var question = $('#question').val();
             var options = [];
@@ -269,6 +276,30 @@
         $('.fa-minus').click(function() {
             $.fn.fullpage.reBuild();
         });
+
+        var validateFields = function() {
+            // The question should be filled out
+            if ($('#question').val() === "") {
+                return false;
+            }
+
+            // At least two options should be filled out
+            var count = 0;
+            $('.option').each(function(){
+                if($(this).val()) {
+                    count++;
+                }
+            });
+
+            console.log(count);
+
+            if (count < 2) {
+                return false;
+            }
+
+            return true;
+        }
+
 
 
     });
