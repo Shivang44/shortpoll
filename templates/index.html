@@ -182,6 +182,7 @@
         $('input[type=text]').blur(function(){
             $.fn.fullpage.setAutoScrolling(true);
             $(window).scrollTop(0,0);
+            $.fn.fullpage.reBuild();
         });
 
         if (focus) {
@@ -253,7 +254,7 @@
         $('.fa-plus').on('click', function() {
             var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
             console.log('clicked plus button');
-            var clone = $('.optionform').removeClass('optionform').clone();
+            var clone = $('.optionform').removeClass('optionform').clone(true, true);
             clone.appendTo('#options').addClass('optionform');
             var current_letter = clone.find('.input-group-addon').text();
             if (current_letter === 'Z' ) {
