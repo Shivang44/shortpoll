@@ -169,16 +169,15 @@
         //    autoScrolling: true,
             scrollOverflow: true,
             touchSensitivity: 10,
+            normalScrollElements: '.form-control',
             scrollOverflowOptions: {
                 scrollbars: false
             },
         });
 
-        $('.center_block').click(function() {
-            console.log('blurrrrrr');
-            $('input[type=text]').blur();
-        });
 
+
+/*
         $('input[type=text]').focus(function() {
             $.fn.fullpage.setAutoScrolling(false);
         });
@@ -187,6 +186,7 @@
             $.fn.fullpage.setAutoScrolling(true);
         //    $(window).scrollTop(0,0);
         });
+*/
 
         if (focus) {
             $('#question').focus();
