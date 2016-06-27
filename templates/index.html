@@ -92,7 +92,7 @@
                       <div class="col-xs-12 vcenter" id="questions_div">
                           <div class="center_block">
                               <h1>Ask a question.</h1>
-                                 <input class="form-control input-lg" id="question" type="text" name="question" />
+                                 <input class="form-control input-lg testinput" id="question" type="text" name="question" />
                                   <i class="fa fa-arrow-circle-down downarrow" aria-hidden="true"></i>
                           </div>
                       </div>
@@ -150,7 +150,8 @@
   </body>
   <script>
     $(document).ready(function() {
-        var focus = $(window).width() >= 1200 ? true : false;
+        //var focus = $(window).width() >= 1200 ? true : false;
+        var focus = false;
         $('input').attr("autocomplete", "off");
 
         $('#fullpage').fullpage({
@@ -176,9 +177,10 @@
         $('.testinput').focus(function() {
             $.fn.fullpage.setAutoScrolling(false);
         });
-        
+
         $('.testinput').blur(function(){
             $.fn.fullpage.setAutoScrolling(true);
+            $(window).scrollTop(0,0);
         });
 
         if (focus) {
