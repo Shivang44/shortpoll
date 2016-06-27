@@ -169,11 +169,10 @@
                     }
                 }
             },
-        //    autoScrolling: true,
             scrollOverflow: true,
             touchSensitivity: 10,
             scrollOverflowOptions: {
-                scrollbars: false
+                scrollbars: true
             },
         });
 
@@ -269,7 +268,7 @@
             }
             var current_letter_index = alphabet.indexOf(current_letter) + 1;
             clone.find('.input-group-addon').text(alphabet[current_letter_index]);
-            //$.fn.fullpage.reBuild();
+            $.fn.fullpage.reBuild();
 
         });
 
