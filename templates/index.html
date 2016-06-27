@@ -174,8 +174,12 @@
             },
         });
 
+        $('.center_block').click(function() {
+            console.log('blurrrrrr');
+            $('input[type=text]').blur();
+        });
+
         $('input[type=text]').focus(function() {
-            alert('clicked');
             $.fn.fullpage.setAutoScrolling(false);
         });
 
