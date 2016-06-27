@@ -165,7 +165,7 @@
                     }
                 }
             },
-            autoScrolling: false,
+        //    autoScrolling: true,
             scrollOverflow: true,
             touchSensitivity: 10,
             scrollOverflowOptions: {
@@ -173,8 +173,12 @@
             },
         });
 
+        $('.testinput').focus(function() {
+            $.fn.fullpage.setAutoScrolling(false);
+        });
+        
         $('.testinput').blur(function(){
-            //$(window).scrollTop(0,0);
+            $.fn.fullpage.setAutoScrolling(true);
         });
 
         if (focus) {
