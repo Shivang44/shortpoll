@@ -92,7 +92,7 @@
                       <div class="col-xs-12 vcenter" id="questions_div">
                           <div class="center_block">
                               <h1>Ask a question.</h1>
-                                 <input class="form-control input-lg testinput" id="question" type="text" name="question" />
+                                 <input class="form-control input-lg" id="question" type="text" name="question" />
                                   <i class="fa fa-arrow-circle-down downarrow" aria-hidden="true"></i>
                           </div>
                       </div>
@@ -109,25 +109,25 @@
                                   <div class="form-group">
                                       <div class="input-group">
                                           <span class="input-group-addon">A</span>
-                                          <input type="text" class="form-control testinput" id="option1">
+                                          <input type="text" class="form-control" id="option1">
                                       </div>
                                   </div>
                                   <div class="form-group">
                                       <div class="input-group">
                                           <span class="input-group-addon">B</span>
-                                          <input type="text" class="form-control testinput">
+                                          <input type="text" class="form-control">
                                       </div>
                                   </div>
                                   <div class="form-group">
                                       <div class="input-group">
                                           <span class="input-group-addon">C</span>
-                                          <input type="text" class="form-control testinput">
+                                          <input type="text" class="form-control">
                                       </div>
                                   </div>
                                   <div class="form-group optionform">
                                       <div class="input-group">
                                           <span class="input-group-addon">D</span>
-                                          <input type="text" class="form-control testinput">
+                                          <input type="text" class="form-control">
                                       </div>
                                   </div>
                               </div>
@@ -174,11 +174,12 @@
             },
         });
 
-        $('.testinput').focus(function() {
+        $('input[type=text]').focus(function() {
+            alert('clicked');
             $.fn.fullpage.setAutoScrolling(false);
         });
 
-        $('.testinput').blur(function(){
+        $('input[type=text]').blur(function(){
             $.fn.fullpage.setAutoScrolling(true);
             $(window).scrollTop(0,0);
         });
