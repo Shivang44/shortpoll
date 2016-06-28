@@ -81,9 +81,7 @@
     }
     .addremove {
         padding-right: 8px;
-        font-size: 19px;
-        margin-top: -8px;
-        margin-bottom: -8px;
+        font-size: 25px;
     }
     </style>
   </head>
@@ -153,8 +151,11 @@
   </body>
   <script>
     $(document).ready(function() {
-        //var focus = $(window).width() >= 1200 ? true : false;
+        var focus = $(window).width() >= 1200 ? true : false;
         var focus = false;
+        var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'];
+        var current_letter = alphabet[3];
+
         $('input').attr("autocomplete", "off");
 
         $('#fullpage').fullpage({
@@ -241,6 +242,7 @@
             $('#pollType').children('span').not(this).removeClass('selected');
 
             if ($(this).text() == "Public Input" && $('#options').css('display') != "none") {
+                $('.plusminus').hide();
                 $('#options').slideUp(function(){
                     $('#wordinputinfo').slideDown();
                     $(this).hide();
@@ -249,7 +251,9 @@
                 if ($('#options').css('display') == "none") {
                     $('#wordinputinfo').hide();
                     $('#options').show(function(){
-                        $('#options').slideDown();
+                        $('#options').slideDown(function() {
+                            $('.plusminus').show();
+                        });
                     });
                 }
             }
@@ -258,21 +262,31 @@
 
 
         $('.fa-plus').on('click', function() {
-            var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-            console.log('clicked plus button');
-            var clone = $('.optionform').removeClass('optionform').clone(true, true);
-            clone.appendTo('#options').addClass('optionform');
-            var current_letter = clone.find('.input-group-addon').text();
-            if (current_letter === 'Z' ) {
-                alert ('Sorry you cannot add anymore options after Z. Why would you want to anyway? Learn to make a simple poll, man.');
+            if (current_letter === 'O' ) {
+                alert ('You cannot add any more options.');
+                return;
+            } else {
+                var clone = $('.optionform').removeClass('optionform').clone(true, true);
+                clone.appendTo('#options').addClass('optionform');
+                current_letter = clone.find('.input-group-addon').text();
+                var current_letter_index = alphabet.indexOf(current_letter) + 1;
+                clone.find('.input-group-addon').text(alphabet[current_letter_index]);
+                $.fn.fullpage.reBuild();
             }
-            var current_letter_index = alphabet.indexOf(current_letter) + 1;
-            clone.find('.input-group-addon').text(alphabet[current_letter_index]);
-            $.fn.fullpage.reBuild();
         });
 
+        // Remove options
         $('.fa-minus').click(function() {
-            //$.fn.fullpage.reBuild();
+            var last_letter = $('#options').children().last().children().children().text();
+            if (last_letter === 'B') {
+                alert('You must enter at least two options for your poll.');
+                return;
+            } else {
+                // Remove last option
+                var options = $('#options').children();
+                var last_child = options[options.length - 1];
+                last_child.remove();
+            }
         });
 
         var validateFields = function() {
