@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.1/jquery.fullPage.min.css" />
-
+    <link rel="stylesheet" href="public/css/sweetalert.css" />
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -125,16 +125,12 @@
                                           <input type="text" class="form-control option">
                                       </div>
                                   </div>
-                                  <div class="form-group optionform">
+                                  <div class="form-group last">
                                       <div class="input-group">
                                           <span class="input-group-addon">D</span>
                                           <input type="text" class="form-control option">
                                       </div>
                                   </div>
-                              </div>
-                              <div class="plusminus">
-                                  <i class="fa fa-minus addremove" aria-hidden="true"></i>
-                                  <i class="fa fa-plus addremove" aria-hidden="true"></i>
                               </div>
                               <p style="font-size: 22px; display: none;" id="wordinputinfo">Users will enter their own answers.</p>
                               <a href="#" class="btn btn-primary btn-lg" style="margin-top:15px;" id="createpoll">Create poll</a>
@@ -145,16 +141,42 @@
         </div>
       </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="../scrolloverflow.min.js"></script>
+    <script src="public/js/scrolloverflow.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.1/jquery.fullPage.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="public/js/sweetalert.min.js"></script>
   </body>
   <script>
     $(document).ready(function() {
+        // Variables we will need letter
         var focus = $(window).width() >= 1200 ? true : false;
         var focus = false;
         var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'];
         var current_letter = alphabet[3];
+
+
+        // Handle creating more input boxes as the user types
+        $('#options').children().keypress(function() {
+            // Find the last letter
+            var last_letter = $('#options').children().last().children().children().text();
+            var last_letter_index = alphabet.indexOf(last_letter);
+
+            if (alphabet[last_letter_index] !== 'P') {
+                if ($(this).hasClass('last')) {
+
+                    // Unmark it as last, clone it, and mark it as last
+                    var clone = $(this).removeClass('last').clone(true, true);
+                    clone.appendTo('#options').addClass('last');
+
+
+                    // Change letter of newly cloned input
+                    clone.children().children('span').text(alphabet[last_letter_index + 1]);
+                }
+            }
+        });
+
+
+
 
         $('input').attr("autocomplete", "off");
 
@@ -213,7 +235,12 @@
 
         $('#createpoll').click(function(e) {
             if (!validateFields()) {
-                alert('You must fill out the question and at least two options!');
+                swal({
+                    title: "Oops...",
+                    confirmButtonColor:	"#EB6864",
+                    text: "You must fill out the question and enter at least two options.",
+                    type: "error"
+                });
                 return false;
             }
             e.preventDefault();
@@ -256,36 +283,6 @@
                         });
                     });
                 }
-            }
-        });
-
-
-
-        $('.fa-plus').on('click', function() {
-            if (current_letter === 'O' ) {
-                alert ('You cannot add any more options.');
-                return;
-            } else {
-                var clone = $('.optionform').removeClass('optionform').clone(true, true);
-                clone.appendTo('#options').addClass('optionform');
-                current_letter = clone.find('.input-group-addon').text();
-                var current_letter_index = alphabet.indexOf(current_letter) + 1;
-                clone.find('.input-group-addon').text(alphabet[current_letter_index]);
-                $.fn.fullpage.reBuild();
-            }
-        });
-
-        // Remove options
-        $('.fa-minus').click(function() {
-            var last_letter = $('#options').children().last().children().children().text();
-            if (last_letter === 'B') {
-                alert('You must enter at least two options for your poll.');
-                return;
-            } else {
-                // Remove last option
-                var options = $('#options').children();
-                var last_child = options[options.length - 1];
-                last_child.remove();
             }
         });
 
