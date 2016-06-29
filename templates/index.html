@@ -148,11 +148,9 @@
   </body>
   <script>
     $(document).ready(function() {
-        // Variables we will need letter
         var focus = $(window).width() >= 1200 ? true : false;
-        var focus = false;
-        var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'];
-        var current_letter = alphabet[3];
+        var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        $('input').attr("autocomplete", "off");
 
 
         // Handle creating more input boxes as the user types
@@ -172,13 +170,13 @@
                     // Change letter of newly cloned input
                     clone.children().children('span').text(alphabet[last_letter_index + 1]);
                 }
+                $.fn.fullpage.reBuild();
             }
         });
 
 
 
 
-        $('input').attr("autocomplete", "off");
 
         $('#fullpage').fullpage({
             afterLoad : function(anchorLink, index) {
