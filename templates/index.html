@@ -232,6 +232,9 @@
         });
 
         $('#createpoll').click(function(e) {
+            e.preventDefault();
+
+            // Validate question and options
             if (!validateFields()) {
                 swal({
                     title: "Oops...",
@@ -241,25 +244,16 @@
                 });
                 return false;
             }
-            e.preventDefault();
-            var question = $('#question').val();
-            var options = [];
-            $('#options').find('input').each(function(){
-                options.push(this.value);
-            });
-            $.ajax({
-                type: "POST",
-                url: "/create",
-                data: {
-                    "question": $('#question').val(),
-                    "options": options
-                },
-                success: function(result) {
-                    window.location.href="/view/" + JSON.parse(result).poll_id;
-                }
-            });
 
 
+
+            // Slide up fields that are empty, and then submit request
+            hideFieldsSubmit();
+        });
+
+        // Mark as not empty when typed in (so it's easy to hide later)
+        $('.option').keydown(function(){
+            $(this).parent().parent().addClass('notEmpty');
         });
 
         $('#pollType').children('span').click(function(){
@@ -298,13 +292,41 @@
                 }
             });
 
-            console.log(count);
-
             if (count < 2) {
                 return false;
             }
 
             return true;
+        }
+
+        var hideFieldsSubmit = function() {
+            $('.form-group').each(function(index) {
+                var option = $(this).find('.option');
+                if (option.val() === "") {
+                    $(this).slideUp(function() {
+
+                        // Create questions/options object to POST to server
+                        var question = $('#question').val();
+                        var options = [];
+                        $('#options').find('input').each(function(){
+                            options.push(this.value);
+                        });
+
+                        // send request
+                        $.ajax({
+                            type: "POST",
+                            url: "/create",
+                            data: {
+                                "question": $('#question').val(),
+                                "options": options
+                            },
+                            success: function(result) {
+                              window.location.href="/view/" + JSON.parse(result).poll_id;
+                            }
+                        });
+                    });
+                }
+            });
         }
 
 
