@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+4<!DOCTYPE html>
 <html>
       <head>
         <meta charset="UTF-8">
@@ -146,12 +146,23 @@
                     new_value: new_value,
                 };
 
-                socket.emit('poll:answers', JSON.stringify(answer_information));
-                if (previous_value === new_value) {
-                    $.notify("Vote submitted", "success");
-                } else {
-                    $.notify("Vote changed", "success");
-                }
+                // Switched to regular AJAX
+                //socket.emit('poll:answers', JSON.stringify(answer_information));
+
+                $.ajax({
+                    type: "POST",
+                    url: "/" + poll_id,
+                    data: answer_information,
+                    success: function(result) {
+                        if (previous_value === new_value) {
+                            $.notify("Vote submitted", "success");
+                        } else {
+                            $.notify("Vote changed", "success");
+                        }
+                    }
+                });
+
+
 
             });
         });

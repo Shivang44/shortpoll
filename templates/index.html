@@ -83,6 +83,23 @@
         padding-right: 8px;
         font-size: 25px;
     }
+    #headerTitle {
+        font-size: 30px;
+        position: absolute;
+        top: 0px;
+    }
+    /* Gradient transparent - color - transparent */
+
+    hr {
+        border: 0;
+        height: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        position: absolute;
+        top: 50px;
+        width: 100%;
+    }
+
     </style>
   </head>
   <body>
@@ -195,6 +212,7 @@
             scrollOverflowOptions: {
                 scrollbars: true
             },
+            normalScrollElements: '#headerTitle'
         });
 
 
