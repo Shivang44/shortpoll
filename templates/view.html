@@ -98,7 +98,7 @@
         var socket = io();
         var poll_id = window.location.pathname.substr(-5);
 
-        // Ask to view responses for specified poll_id (this will set up redis sub)
+        // Ask to view initial responses for specified poll_id
         socket.emit('poll:view:responses', poll_id);
 
         // Update chart as the data flows in
