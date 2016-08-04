@@ -151,7 +151,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/testpath",
+                    url: "/" + poll_id,
                     data: answer_information,
                     success: function(result) {
                         if (previous_value === new_value) {
