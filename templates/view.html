@@ -98,6 +98,11 @@
         var socket = io();
         var poll_id = window.location.pathname.substr(-5);
 
+
+        socket.on('connection', function(socket) {
+            console.log('connected client - PC!');
+        });
+
         // Ask to view initial responses for specified poll_id
         socket.emit('poll:view:responses', poll_id);
 
@@ -108,6 +113,8 @@
             }
             myChart.update();
         });
+
+
 
 
 
