@@ -1,2 +1,2 @@
 # livepollapp
-A live poll app written in NodeJS, using redis for datastore and socketio for keeping clients in sync
+A realtime poll app written in Nodejs and Hapijs, along with redis and socket.io for realtime features
