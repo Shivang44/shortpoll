@@ -9,15 +9,20 @@
             .section {
                 margin: 10px;
             }
-            .chartTypeIcon {
+            .graphTypeIcon {
                 font-size: 75px !important;
                 margin-top: 15px;
-                margin-right: 50px;
+                margin-right: 15px;
             }
-            .colorActiive {
+            .colorActive {
                 color: #eb6864;
             }
             .colorInactive {
+                color: #777;
+            }
+            .graphType p {
+                margin-top: 7px;
+                font-size: 17px;
                 color: #777;
             }
         </style>
@@ -30,9 +35,12 @@
                 <h3>Share this url so people can answer your live poll: <a href="/{{poll_obj.poll_id}}">shortpoll.com/{{poll_obj.poll_id}}</a> </h3>
                 <h1>{{ poll_obj.question }}</h1>
                 <p id="results"></p>
-                <canvas id="myChart" width="100%" height="70vh"></canvas>
-                <i class="fa fa-bar-chart chartTypeIcon colorActiive"></i>
-                <i class="fa fa-pie-chart chartTypeIcon"></i>
+                <canvas id="myChart" width="100%" height="60vh"></canvas>
+                <div class="graphType">
+                    <i class="fa fa-bar-chart graphTypeIcon colorActive" data-type="bar"></i>
+                    <i class="fa fa-pie-chart graphTypeIcon" data-type="pie"></i>
+                    <p>Graph Type</p>
+                </div>
             </div>
         </div>
       </body>
@@ -40,11 +48,13 @@
       <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js"></script>
       <script>
-        // Chartjs
 
+
+
+        // Chartjs
         var ctx = $('#myChart');
         var chartConf = {
-            type: 'bar',
+            type: "bar",
             data: {
                 labels: [
                     {{#each poll_obj.options }}
@@ -118,5 +128,17 @@
 
 
 
+        // Handle changing graph type
+        $('.graphTypeIcon').click(function() {
+            if ($(this).hasClass('colorActive')) {
+                return;
+            }
+            $(this).addClass('colorActive');
+            $('.graphTypeIcon').not($(this)).removeClass('colorActive');
+            chartConf.type = $(this).data('type');
+            myChart.destroy();
+            myChart = new Chart(ctx, chartConf);
+            myChart.render();
+        });
       </script>
 </html>
