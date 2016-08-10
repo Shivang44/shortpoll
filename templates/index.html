@@ -10,7 +10,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.1/jquery.fullPage.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.2/jquery.fullPage.min.css" />
     <link rel="stylesheet" href="public/css/sweetalert.css" />
 
 
@@ -125,25 +125,25 @@
                               <h1 style="margin-bottom: 23px;">Set answers.</h1>
                               <!-- <p id="pollType"><span class="selected">Multiple Choice</span> | <span>Multiselect</span> | <span>Public Input</span></p>-->
                               <div id="options">
-                                  <div class="form-group">
+                                  <div class="form-group animationClass">
                                       <div class="input-group">
                                           <span class="input-group-addon">A</span>
                                           <input type="text" class="form-control option" id="option1">
                                       </div>
                                   </div>
-                                  <div class="form-group">
+                                  <div class="form-group animationClass">
                                       <div class="input-group">
                                           <span class="input-group-addon">B</span>
                                           <input type="text" class="form-control option">
                                       </div>
                                   </div>
-                                  <div class="form-group">
+                                  <div class="form-group animationClass">
                                       <div class="input-group">
                                           <span class="input-group-addon">C</span>
                                           <input type="text" class="form-control option">
                                       </div>
                                   </div>
-                                  <div class="form-group last">
+                                  <div class="form-group animationClass last">
                                       <div class="input-group">
                                           <span class="input-group-addon">D</span>
                                           <input type="text" class="form-control option">
@@ -160,7 +160,7 @@
       </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="public/js/scrolloverflow.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.1/jquery.fullPage.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.2/jquery.fullPage.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="public/js/sweetalert.min.js"></script>
   </body>
@@ -211,7 +211,8 @@
             scrollOverflow: true,
             touchSensitivity: 10,
             scrollOverflowOptions: {
-                scrollbars: true
+                scrollbars: true,
+                click: false
             },
             normalScrollElements: '#headerTitle'
         });
@@ -319,31 +320,37 @@
         }
 
         var hideFieldsSubmit = function() {
+            var length = $('.form-group').length;
             $('.form-group').each(function(index) {
+
                 var option = $(this).find('.option');
                 if (option.val() === "") {
-                    $(this).slideUp(function() {
+                    $(this).slideUp();
+                }
+            });
+            $('.animationClass').filter(":animated").promise().done(function() {
+                createPoll();
+            });
+        }
 
-                        // Create questions/options object to POST to server
-                        var question = $('#question').val();
-                        var options = [];
-                        $('#options').find('input').each(function(){
-                            options.push(this.value);
-                        });
+        var createPoll = function() {
+            // Create questions/options object to POST to server
+            var question = $('#question').val();
+            var options = [];
+            $('#options').find('input').each(function(){
+                options.push(this.value);
+            });
 
-                        // send request
-                        $.ajax({
-                            type: "POST",
-                            url: "/create",
-                            data: {
-                                "question": $('#question').val(),
-                                "options": options
-                            },
-                            success: function(result) {
-                              window.location.href="/view/" + JSON.parse(result).poll_id;
-                            }
-                        });
-                    });
+            // send request
+            $.ajax({
+                type: "POST",
+                url: "/create",
+                data: {
+                    "question": $('#question').val(),
+                    "options": options
+                },
+                success: function(result) {
+                  window.location.href="/view/" + JSON.parse(result).poll_id;
                 }
             });
         }
