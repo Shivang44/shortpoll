@@ -34,15 +34,16 @@
                 text-align: center;
                 width: 100%;
             }
-            .btn-success, .btn-primary {
-                border: none;
+            .btn-unactive {
+                background-color: #EB6864;
             }
-            .btn-success, .btn-success:hover, .btn-success:focus {
+            .btn-active {
                 background-color: #313F4F;
             }
-            .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-                background-color:#4b5867;
+            .btn-hover {
+                background-color:#6e7e92;
             }
+
             h1 {
                 font-size: 3.5em;
                 margin-bottom: 40px;
@@ -73,7 +74,7 @@
                            <h1 style="margin-bottom: 25px;">{{ poll_obj.question }}</h1>
                                <ul id="answerul">
                                    {{#each poll_obj.options }}
-                                   <li><button class="btn btn-primary btn-lg" value="{{ @index }}" data-selected="0">{{ this }}</button></li>
+                                   <li><button class="btn btn-lg" value="{{ @index }}" data-selected="0">{{ this }}</button></li>
                                    {{/each}}
                              </ul>
                       </div>
