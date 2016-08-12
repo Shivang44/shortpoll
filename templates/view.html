@@ -35,7 +35,7 @@
       <body>
           <div class="container">
               <div style="text-align:center;">
-                <h3>Share this url so people can answer your live poll: <a href="/{{poll_obj.poll_id}}">shortpoll.com/{{poll_obj.poll_id}}</a> </h3>
+                <h3>Share your poll url: <a href="/{{poll_obj.poll_id}}">shortpoll.com/{{poll_obj.poll_id}}</a> </h3>
                 <p id="results"></p>
                 <canvas id="myChart" width="100%" height="60vh"></canvas>
                 <div class="graphType">
@@ -55,10 +55,16 @@
           // BG colors for different graph types
           var barBgColor = 'rgba(235,104,100,1)';
           var pieBgColor = [
+              '#20374F',
               '#EB6864',
-              '#313F4F',
               '#3498DB',
-              '#ECF0F1'
+              '#8ACB88',
+              '#9893DA',
+              '#EF2D56',
+              '#50514F',
+              '#77C4D3',
+              '#247BA0',
+              '#F4D35E'
           ];
 
           // options for different graph types
