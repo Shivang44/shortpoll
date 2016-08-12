@@ -56,8 +56,7 @@
             '#EB6864',
             '#313F4F',
             '#3498DB',
-            '#ECF0F1',
-            '#FBFEF9'
+            '#ECF0F1'
         ];
 
         // options for different graph types
@@ -94,8 +93,24 @@
                 display: true,
                 text: '{{ poll_obj.question }}',
                 fontSize: 25
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var allData = data.datasets[tooltipItem.datasetIndex].data;
+                        var tooltipLabel = data.labels[tooltipItem.index];
+                        var tooltipData = allData[tooltipItem.index];
+                        var total = 0;
+                        for (var i in allData) {
+                            total += allData[i];
+                        }
+                        var tooltipPercentage = Math.round((tooltipData / total) * 100);
+                        return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+                    }
+                }
             }
         };
+
 
 
 
@@ -121,6 +136,45 @@
             },
             options: barOptions
         }
+
+        function drawSegmentValues()
+        {
+            console.log(myChart.segments.length);
+            for(var i=0; i<myChart.segments.length; i++)
+            {
+                ctx.fillStyle="white";
+                var textSize = canvas.width/15;
+                ctx.font= textSize+"px Verdana";
+                // Get needed variables
+                var value = myChart.segments[i].value/totalValue*100;
+                if(Math.round(value) !== value)
+                	value = (myChart.segments[i].value/totalValue*100).toFixed(1);
+                value = value + '%';
+
+                var startAngle = myChart.segments[i].startAngle;
+                var endAngle = myChart.segments[i].endAngle;
+                var middleAngle = startAngle + ((endAngle - startAngle)/2);
+
+                // Compute text location
+                var posX = (radius/2) * Math.cos(middleAngle) + midX;
+                var posY = (radius/2) * Math.sin(middleAngle) + midY;
+
+                // Text offside by middle
+                var w_offset = ctx.measureText(value).width/2;
+                var h_offset = textSize/4;
+
+                ctx.fillText(value, posX - w_offset, posY + h_offset);
+            }
+        }
+
+        function getTotalValue(arr) {
+            var total = 0;
+            for(var i=0; i<arr.length; i++)
+                total += arr[i].value;
+            return total;
+        }
+
+
         var myChart = new Chart(ctx, chartConf);
         Chart.defaults.global.defaultFontSize = 18;
 
