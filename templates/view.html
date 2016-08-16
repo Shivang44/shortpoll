@@ -151,7 +151,7 @@
           Chart.defaults.global.defaultFontSize = 18;
 
           var socket = io();
-          var poll_id = window.location.pathname.substr(-5);
+          var poll_id = window.location.pathname.substr(-6);
 
 
           socket.on('connection', function(socket) {
